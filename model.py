@@ -90,8 +90,18 @@ def scale_embeddings_by_sqrt_d_model(embeddings, d_model):
 
     return embeddings
 
-# Step 8 - compute_positional_div_term (not yet solved)
-# TODO: implement
+# Step 8 - compute_positional_div_term
+import torch
+import math
+def compute_positional_div_term(d_model):
+    # TODO: return a 1D FloatTensor of length d_model // 2 holding the sinusoidal frequency divisors
+     
+    even_indices  = torch.arange(0, d_model, 2, dtype=torch.float32)
+    #  normalize by d_model
+    even_indices  = even_indices  / d_model 
+    even_indices = even_indices*(-math.log(10000.0))
+    div_term = torch.exp(even_indices)
+    return div_term
 
 # Step 9 - build_position_index_column (not yet solved)
 # TODO: implement
