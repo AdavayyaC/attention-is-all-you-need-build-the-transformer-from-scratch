@@ -340,8 +340,23 @@ def split_qkv_into_heads(q, k, v, num_heads):
 
     return q_h, k_h, v_h
 
-# Step 29 - multi_head_scaled_dot_product_attention (not yet solved)
-# TODO: implement
+# Step 29 - multi_head_scaled_dot_product_attention
+import torch
+
+def multi_head_scaled_dot_product_attention(q_h, k_h, v_h, mask=None):
+    # TODO: run scaled dot-product attention over per-head Q, K, V and return (context, weights)
+    attention_scores = compute_raw_attention_scores(q_h, k_h)
+
+    d_k = q_h.shape[-1]
+    attention_scores = scale_attention_scores(attention_scores, d_k)
+    if mask is not None:
+        attention_scores = mask_attention_scores_with_neg_inf(attention_scores,mask)
+
+    attention_weights = softmax_attention_weights(attention_scores)
+
+    context = apply_attention_weights_to_values(attention_weights, v_h)
+
+    return (context, attention_weights)
 
 # Step 30 - merge_heads_and_project_output (not yet solved)
 # TODO: implement
